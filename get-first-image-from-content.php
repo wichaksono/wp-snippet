@@ -77,8 +77,8 @@ function get_first_image_as_featured($content, $slug = 'tes-slug', $post_id = nu
 function set_to_true_post_thumbnail($post)
 {
     $__has_replace_thumbnail = get_post_meta($post->ID, '__has_replace_thumbnail', true);
-    if (empty($__has_replace_thumbnail)) {
-        $thumbnail_url = get_the_post_thumbnail_url($post);
+	$thumbnail_url = get_the_post_thumbnail_url($post);
+    if (empty($__has_replace_thumbnail) || empty($thumbnail_url) ) {
         if (has_post_thumbnail($post) && strpos($thumbnail_url, home_url()) === false) {
             update_post_meta($post->ID, '__has_replace_thumbnail', get_post_thumbnail_id($post));
         } else {
