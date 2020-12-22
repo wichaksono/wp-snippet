@@ -79,7 +79,7 @@ function set_to_true_post_thumbnail($post)
     $__has_replace_thumbnail = get_post_meta($post->ID, '__has_replace_thumbnail', true);
 	$thumbnail_url = get_the_post_thumbnail_url($post);
     if (empty($__has_replace_thumbnail) || empty($thumbnail_url) ) {
-        if (has_post_thumbnail($post) && strpos($thumbnail_url, home_url()) === false) {
+        if (has_post_thumbnail($post) && $thumbnail_url && strpos($thumbnail_url, home_url()) === false) {
             update_post_meta($post->ID, '__has_replace_thumbnail', get_post_thumbnail_id($post));
         } else {
             set_post_thumbnail_this_post($post->ID, $post);
