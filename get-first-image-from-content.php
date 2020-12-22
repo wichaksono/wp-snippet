@@ -9,7 +9,10 @@ add_action('wp_footer', function () {
         set_to_true_post_thumbnail($post);
     }
 });
-
+/**
+ * set_post_thumbnail_this_post
+ * mengupload/memindahkan dan menjadikan gambar jadi thumbnail
+ */
 function set_post_thumbnail_this_post($post_id, $post = null)
 {
     if (empty($post)) {
@@ -18,7 +21,17 @@ function set_post_thumbnail_this_post($post_id, $post = null)
 
     $upload_dir = wp_upload_dir();
     $url = get_first_image_as_featured($post->post_content, $post->post_name, $post_id);
-    $ext = pathinfo($url, PATHINFO_EXTENSION);
+    $basename = basename($url);
+	
+	if ( strpos($basename, '?') !== false ) {
+		$ext_arr = explode('?', $basename);
+		$basename = $ext_arr[0];
+	}
+	
+	$ext = phpinfo($basename, PATHINFO_EXTENSION );
+	if ( empty($ext) ) {
+		$ext = 'jpg';
+	}
 
     if (!empty($url)) {
         include_once ABSPATH . 'wp-admin/includes/media.php';
@@ -43,6 +56,7 @@ function set_post_thumbnail_this_post($post_id, $post = null)
         wp_update_attachment_metadata($attach_id, $attach_data);
         wp_update_image_subsizes($attach_id);
         $set_thumbnail = set_post_thumbnail($post_id, $attach_id);
+		
         if ($set_thumbnail != false) {
             update_post_meta($post_id, '__has_replace_thumbnail', $attach_id);
         }
@@ -50,6 +64,11 @@ function set_post_thumbnail_this_post($post_id, $post = null)
 
 }
 
+/**
+ * get_first_image_as_featured()
+ * mencari dan mengambil gambar pertama di posting
+ * @return string
+ */
 function get_first_image_as_featured($content, $slug = 'tes-slug', $post_id = null)
 {
     preg_match_all('/<img[^>]+>/i', $content, $result);
@@ -74,6 +93,9 @@ function get_first_image_as_featured($content, $slug = 'tes-slug', $post_id = nu
     return $image_url;
 }
 
+/**
+ * Check apakah sudah ada thumbnail, atau url thumbnail error/invalid
+ */
 function set_to_true_post_thumbnail($post)
 {
     $__has_replace_thumbnail = get_post_meta($post->ID, '__has_replace_thumbnail', true);
