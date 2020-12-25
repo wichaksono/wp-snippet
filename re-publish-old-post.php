@@ -32,7 +32,7 @@ function auto_re_publish($posts_per_page = 1, $category__not_in = array())
 		$strtotime = strtotime("-1 days");
 		foreach( $posts as $post ) {
 			$strtotime += rand(10,100);
-			$yesterday = date('Y-m-d H:i:s', strtotime("-1 days"));
+			$yesterday = date( 'Y-m-d H:i:s', $strtotime );
 
 			wp_update_post(array(
 				'ID' => $post->ID,
