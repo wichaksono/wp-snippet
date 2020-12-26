@@ -7,10 +7,16 @@
  /** cara pakai **/
  add_action('wp_footer', function() {
    if ( is_single() ) {
-       auto_re_publish(1, array(11));
+       auto_re_publish(1);
    }
  });
- 
+
+/**
+ * auto re publish konten lawas
+ * @param $posts_per_page int jumlah post yang ingin direpublish
+ * @param $category__not_in array (optional) kategori yang tidak ingin di republish
+ * @return void
+ */
 function auto_re_publish($posts_per_page = 1, $category__not_in = array())
 {
 	$current_date = date('Y-m-d');
@@ -18,16 +24,18 @@ function auto_re_publish($posts_per_page = 1, $category__not_in = array())
 
 	if ( strtotime($current_date) > strtotime($last_action) ) {
 	
-		if ( !is_array( $category__not_in) ) {
-			$category__not_in = array();
-		}
-
-		$posts = get_posts([
+		$args=[
 			'orderby' => 'date',
 			'order' => 'ASC',
 			'posts_per_page' => $posts_per_page,
 			'category__not_in' => $category__not_in
-		]);
+		];
+		
+		if ( ! empty( $category__not_in) && is_array($category__not_in) ) {
+			$args['category__not_in'] = $category__not_in;
+		}
+
+		$posts = get_posts($args);
 
 		$strtotime = strtotime("-1 days");
 		foreach( $posts as $post ) {
