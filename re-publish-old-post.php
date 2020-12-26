@@ -8,6 +8,11 @@
  add_action('wp_footer', function() {
    if ( is_single() ) {
        auto_re_publish(1);
+	// contoh exclude kategori
+	// auto_re_publish( 1, array(11, 20, 140) );// itu adalah ID dari category yang ingin dikecualikan
+	   
+	// contoh re publish 10 artikel/post, dan exclude beberapa category
+	// auto_re_publish( 10, array( 11, 20, 140 ) ); 
    }
  });
 
