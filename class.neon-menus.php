@@ -98,6 +98,7 @@ class Neon_Menus {
                         'menu_order' => $nav_menu_item->menu_order,
                         'post_title' => $post_title,
                         'post_name' => $post_name,
+                        'menu_item_description' => $nav_menu_item->post_content,
                         'menu_item_object_id' => $menu_item_object_id,
                         'menu_item_object' => $menu_item_object,
                         'menu_item_url' => $menu_item_url,
@@ -116,13 +117,16 @@ class Neon_Menus {
                  */
                 $menu_submenu = [];
                 foreach ($main_menu as $index => $item) {
-                    $submenu = $this->get_submenu($item['ID'], $main_menu);
-                    if ( !empty($submenu) ) {
-                        $item['sub_menu'] = $submenu;
+                    if ( $item['menu_item_menu_item_parent'] == 0 ) {
+                        $submenu = $this->get_submenu($item['ID'], $main_menu);
+                        if ( !empty($submenu) ) {
+                            $item['sub_menu'] = $submenu;
+                        }
+                        $menu_submenu[$index] = $item;
                     }
-                    $menu_submenu[$index] = $item;
                 }
 
+                ksort($menu_submenu);
                 set_transient($menu_temporary_name, $menu_submenu, $this->args['cache_expires']);
                 return $menu_submenu;
             }
@@ -133,18 +137,19 @@ class Neon_Menus {
 
     private function get_submenu($parent, $main_menu)
     {
+        $sub_menu = [];
         foreach ($main_menu as $nav_menu) {
             if ( $parent && $parent == $nav_menu['menu_item_menu_item_parent'] ) {
                 $sub_submenu = $this->get_submenu($nav_menu['ID'], $main_menu);
                 if ( ! empty($sub_submenu) ) {
-                    $nav_menu['submenu'] = $sub_submenu;
+                    $nav_menu['sub_menu'] = $sub_submenu;
                 }
 
-                return [$nav_menu['menu_order'] => $nav_menu];
+                $sub_menu[$nav_menu['menu_order']] = $nav_menu;
             }
         }
 
-        return [];
+        return $sub_menu;
     }
 }
 
