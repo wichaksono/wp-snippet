@@ -1,4 +1,6 @@
-class TokoInstan_Post_Type
+<?php
+
+class Base_Post_Type
 {
 	protected $post_type_id;
 	protected $slug;
