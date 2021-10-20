@@ -1,6 +1,4 @@
-<?php
-
-class Base_Post_Type
+class TokoInstan_Post_Type
 {
 	protected $post_type_id;
 	protected $slug;
@@ -62,26 +60,26 @@ class Base_Post_Type
 			'delete_post' => 'delete_' . $this->post_type_id
 		];
 
-		$cpt_args = array(
-			'labels' => $labels,
-			'public' => true,
-			'publicly_queryable' => $disable_in_front_page,
-			'show_ui' => true,
-			'show_in_menu' => true,
-			'show_in_admin_bar' => $disable_in_front_page,
-			'query_var' => true,
-			'rewrite' => array('slug' => $this->slug),
+		register_post_type($args['id'],
+			array(
+				'labels' => $labels,
+				'public' => true,
+				'publicly_queryable' => $disable_in_front_page,
+				'show_ui' => true,
+				'show_in_menu' => true,
+				'show_in_admin_bar' => $disable_in_front_page,
+				'query_var' => true,
+				'rewrite' => array('slug' => $this->slug),
 //				'capabilities' => $capabilities,
-			'has_archive' => !isset($args['has_archive']) ? true : $args['has_archive'],
-			'exclude_from_search' => apply_filters("{$args['id']}_exclude_from_search", !$disable_in_front_page),
-			'hierarchical' => empty($args['hierarchical']) ? false : $args['hierarchical'],
-			'menu_position' => $args['menu_position'],
-			'menu_icon' => $args['menu_icon'],
-			'supports' => $args['supports'],
-			'show_in_rest' => !empty($args['show_in_rest']) ? $args['show_in_rest'] : false,
+				'has_archive' => !isset($args['has_archive']) ? true : $args['has_archive'],
+				'exclude_from_search' => apply_filters("{$args['id']}_exclude_from_search", !$disable_in_front_page),
+				'hierarchical' => empty($args['hierarchical']) ? false : $args['hierarchical'],
+				'menu_position' => $args['menu_position'],
+				'menu_icon' => $args['menu_icon'],
+				'supports' => $args['supports'],
+				'show_in_rest' => !empty($args['show_in_rest']) ? $args['show_in_rest'] : false,
+			)
 		);
-
-		register_post_type($args['id'], $cpt_args);
 
 		if (!empty($args['group'])) {
 
