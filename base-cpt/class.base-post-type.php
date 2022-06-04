@@ -9,6 +9,7 @@ class Base_Post_Type
 	public function __construct($args)
 	{
 		$this->args = $args;
+		
 		$this->post_type_id = $args['id'];
 		$this->slug = apply_filters("{$args['id']}_rewrite_slug", $args['id']);
 		add_action('init', [$this, '_register']);
@@ -62,6 +63,11 @@ class Base_Post_Type
 			'delete_post' => 'delete_' . $this->post_type_id
 		];
 
+        $is_hierarchical = empty($args['hierarchical']) ? false : $args['hierarchical'];
+        if ( $is_hierarchical ) {
+            $args['supports'][] = 'page-attributes';
+        }
+        
 		register_post_type($args['id'],
 			array(
 				'labels' => $labels,
@@ -75,7 +81,7 @@ class Base_Post_Type
 //				'capabilities' => $capabilities,
 				'has_archive' => !isset($args['has_archive']) ? true : $args['has_archive'],
 				'exclude_from_search' => apply_filters("{$args['id']}_exclude_from_search", !$disable_in_front_page),
-				'hierarchical' => empty($args['hierarchical']) ? false : $args['hierarchical'],
+				'hierarchical' => $is_hierarchical,
 				'menu_position' => $args['menu_position'],
 				'menu_icon' => $args['menu_icon'],
 				'supports' => $args['supports'],
