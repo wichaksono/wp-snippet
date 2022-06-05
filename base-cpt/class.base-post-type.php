@@ -141,7 +141,7 @@ class Base_Post_Type
 	
 	protected function getTerms($term, $empty = false) {
 		global $wpdb;
-		$sql = "SELECT term_id, name, slug, description FROM {$wpdb->terms} as terms 
+		$sql = "SELECT terms.term_id, name, slug, description, count FROM {$wpdb->terms} as terms 
 			INNER JOIN {$wpdb->term_taxonomy} as term_taxonomy ON terms.term_id = term_taxonomy.term_id
 			WHERE taxonomy = '{$term}'";
 
