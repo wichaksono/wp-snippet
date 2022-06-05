@@ -126,7 +126,7 @@ class Base_Post_Type
 		}
 	}
 
-	public function getContent($posts_per_page = 5)
+	protected function getContent($posts_per_page = 5)
 	{
 		return get_posts([
 			'post_type' => $this->post_type_id,
@@ -134,9 +134,21 @@ class Base_Post_Type
 		]);
 	}
 
-	public function getId()
+	protected function getId()
 	{
 		return $this->post_type_id;
+	}
+	
+	protected function getTerms($term, $empty = false) {
+		global $wpdb;
+		$sql = "SELECT term_id, name, slug, description FROM {$wpdb->terms} as terms 
+			INNER JOIN {$wpdb->term_taxonomy} as term_taxonomy ON terms.term_id = term_taxonomy.term_id
+			WHERE taxonomy = '{$term}'";
+
+		    if ( $empty ) {
+			$sql .= " AND count > 0 ";
+		    }
+		return $wpdb->get_results($sql);
 	}
 
 }
