@@ -15,7 +15,7 @@ function neon_related_by_term() {
 
 		$query = new WP_Query([
 			'post_parent__not_in' => [$post->ID],
-			'cat' => implode(',', $cat_ids); 
+			'cat' => implode(',', $cat_ids)
 		]);
 
 		ob_start();
