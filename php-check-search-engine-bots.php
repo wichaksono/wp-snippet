@@ -884,7 +884,12 @@ function is_bot(){
         );
 
     foreach($bots as $b) {
-        if( stripos( $ua, $b ) !== false ) return true;
+        if( stripos( $ua, $b ) !== false ) {
+		if ( strpos( $ua, 'XiaoMi' ) !== false ) {
+				return false;
+			}
+		return true;
+	}
     }
 
     return false;
