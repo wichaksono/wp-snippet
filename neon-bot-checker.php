@@ -3,7 +3,7 @@ function neon_is_bot()
 {
 	static $readyIsBot;
 
-	if ( empty( $readyIsBot ) {
+	if ( empty( $readyIsBot ) ) {
 		if ( ! isset($_SERVER['HTTP_USER_AGENT']) ) {
 			$readyIsBot = true;
 			return $readyIsBot;
