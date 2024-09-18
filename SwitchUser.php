@@ -84,7 +84,7 @@ final class Switcher
 
         add_action('admin_bar_menu', [$this, 'switchBack'], 100);
         add_action('admin_bar_menu', [$this, 'userLists'], 100);
-        add_filter( 'user_row_actions', [ $this, 'rowAction' ], 10, 2 );
+        add_filter('user_row_actions', [$this, 'rowAction'], 10, 2);
 
 
         // Add the action to handle user switching requests.
@@ -158,8 +158,8 @@ final class Switcher
             ]);
 
             $users = get_users([
-                'fields'  => ['ID', 'user_login'],
-                'exclude' => [$this->user->ID],
+                'fields'       => ['ID', 'user_login'],
+                'role__not_in' => ['administrator', 'super_admin'],
             ]);
 
             foreach ($users as $user) {
@@ -178,12 +178,19 @@ final class Switcher
      *
      * @param array $actions An array of row actions.
      * @param WP_User $user The user object.
+     *
      * @return array An array of row actions.
      */
     public function rowAction(array $actions, WP_User $user): array
     {
-        if ($this->isSuperAdmin() && !in_array('administrator', $user->roles) && !in_array('super_admin', $user->roles)) {
-            $actions['neon_switch_user'] = '<a href="' . admin_url('admin-post.php?action=neon_switch_user&switch_to=' . $user->ID) . '">Switch User</a>';
+        if (
+            $this->isSuperAdmin() &&
+            ! in_array('administrator', $user->roles) &&
+            ! in_array('super_admin', $user->roles)
+        ) {
+            $actions['neon_switch_user'] = '<a href="' .
+                admin_url('admin-post.php?action=neon_switch_user&switch_to=' . $user->ID) .
+                '">Switch User</a>';
         }
 
         return $actions;
@@ -201,7 +208,7 @@ final class Switcher
             $user_id = (int)sanitize_text_field($_GET['switch_to']);
             $user    = get_user_by('ID', $user_id);
 
-            if (!$user instanceof WP_User) {
+            if ( ! $user instanceof WP_User) {
                 return;
             }
         }
@@ -210,7 +217,7 @@ final class Switcher
             $user_id = $this->userSwitched()['user_id'];
             $user    = get_user_by('ID', $user_id);
 
-            if (!$user instanceof WP_User) {
+            if ( ! $user instanceof WP_User) {
                 return;
             }
         }
@@ -252,7 +259,11 @@ final class Switcher
     {
         if ($this->isUserSwitched()) {
             echo '<div class="switch-back-footer">';
-            echo '<a href="' . esc_html(admin_url('admin-post.php?action=neon_switch_user&switch_back=1')) . '">Switch Back to ' . esc_html($this->userSwitched()['user_login']) . '</a>';
+            echo '<a href="' .
+                esc_html(admin_url('admin-post.php?action=neon_switch_user&switch_back=1')) .
+                '">Switch Back to ' .
+                esc_html($this->userSwitched()['user_login']) .
+                '</a>';
             echo '</div>';
         }
     }
