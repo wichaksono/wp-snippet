@@ -174,8 +174,10 @@
     --bs-form-invalid-border-color: #ea868f;
 }
 
-.wp-bootstrap {
+.wp-bootstrap {}
 
+.wp-bootstrap * {
+    box-sizing: border-box;
 }
 
 .wp-bootstrap h1,
@@ -5382,7 +5384,7 @@
     }
 }
 .wp-bootstrap .offcanvas, .wp-bootstrap .offcanvas-xxl, .wp-bootstrap .offcanvas-xl, .wp-bootstrap .offcanvas-lg, .wp-bootstrap .offcanvas-md, .wp-bootstrap .offcanvas-sm {
-    --bs-offcanvas-zindex: 1045;
+    --bs-offcanvas-zindex: 9991;
     --bs-offcanvas-width: 400px;
     --bs-offcanvas-height: 30vh;
     --bs-offcanvas-padding-x: 1rem;
@@ -5800,21 +5802,21 @@
     }
 }
 .wp-bootstrap .offcanvas.offcanvas-start {
-    top: 0;
+    top: 32px;
     left: 0;
     width: var(--bs-offcanvas-width);
     border-right: var(--bs-offcanvas-border-width) solid var(--bs-offcanvas-border-color);
     transform: translateX(-100%);
 }
 .wp-bootstrap .offcanvas.offcanvas-end {
-    top: 0;
+    top: 32px;
     right: 0;
     width: var(--bs-offcanvas-width);
     border-left: var(--bs-offcanvas-border-width) solid var(--bs-offcanvas-border-color);
     transform: translateX(100%);
 }
 .wp-bootstrap .offcanvas.offcanvas-top {
-    top: 0;
+    top: 32px;
     right: 0;
     left: 0;
     height: var(--bs-offcanvas-height);
