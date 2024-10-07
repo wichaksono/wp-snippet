@@ -4,6 +4,7 @@ require_once __DIR__ . '/CustomWPLogin.php';
 
 $login = new NeonWebId\WPToolkit\Addons\Login\CustomWPLogin();
 
+// set background
 $login->setBackground([
     'background-color'    => '#f1f1f1',
     'background-image'     => 'url('. get_stylesheet_directory_uri() . '/inc/neon-login/assets/img/bg.png)',
@@ -12,11 +13,22 @@ $login->setBackground([
     'background-position' => 'center',
 ]);
 
+// set text body color
 $login->setTextColor('#1E1F22');
+
+// set accent color, like link, button, highlight, and hover
 $login->setAccentColor('#EE7C67', '#d66853');
+
+// set logo
 $login->setLogo(get_stylesheet_directory_uri() . '/wp-content/uploads/2024/10/logo.png');
+
+// set login title
 $login->setTitle('Neon Studio');
+
+// change url on title
 $login->setTitleURL(home_url());
+
+// add subtitle
 $login->setSubtitle('Welcome to Neon Studio', [
     'text-align'    => 'center',
     'margin-bottom' => '15px',
@@ -26,7 +38,7 @@ $login->setSubtitle('Welcome to Neon Studio', [
 ]);
 
 /**
- * Additional Style
+ * Additional Style or override sytle
  */
 $login->setBox([
     'background-color' => '#fff',
