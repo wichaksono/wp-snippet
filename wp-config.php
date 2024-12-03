@@ -1,5 +1,9 @@
 <?php
 
+// override site url
+define( 'WP_HOME', 'https://newdomain.com' );
+define( 'WP_SITEURL', 'https://newdomain.com' );
+
 // limit revision
 define('WP_POST_REVISIONS', 3);
 
