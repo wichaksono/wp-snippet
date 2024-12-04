@@ -1,0 +1,28 @@
+User-agent: *
+Disallow: /search/
+Disallow: /wp-content/cache/
+Disallow: /cgi-bin/
+Disallow: /trackback/
+Disallow: /xmlrpc*
+Disallow: /comments/
+Disallow: */trackback/
+Disallow: /readme.html
+Disallow: /wp-login*
+Disallow: /wp-comments-post.php$
+Disallow: /wp-json/wp/v2/*
+Disallow: *?replytocom*
+Disallow: *?comments=*
+Disallow: *?s=*
+Disallow: *?p=*
+Disallow: *?share=*
+Disallow: ?amp=*
+Disallow: ?nonamp=*
+Disallow: /*/feed/
+
+Allow: /wp-content/uploads/
+Allow: /wp-content/cache/autoptimize/
+Allow: /wp-admin/admin-ajax.php
+Allow: /*.js*
+Allow: /*.css*
+
+Sitemap: https://domain.com/sitemap_index.xml
